@@ -13,3 +13,5 @@
 > 随着前端技术的多元化发展，出现了越来越多的新技术，前端框架有vue、react、angular等；构建工具有vite、webpack、rollup、rolldown、SWC、esbuild等；UI组件库有Element-plus、Ant-design、Material-UI、Native-UI等；css样式工具Tailwind、Unocss、Postcss等；桌面端应用有Electron、Tauri、Neutralinojs；移动端应用有ReactNative、Flutter、Uniapp等。在日常开发中，我们一般会根据项目的需求定制相应的技术栈；在项目中技术栈切换对开发者而言，这会非常消耗他们的精力；那么如何节省这方面的消耗呢，可以通过文档记录累不同技术栈的使用方法、技巧、进阶等；然而要面临这样一个问题，不同技术栈往往不能使用一个项目来记录，比如vitepress只能提供vite+vue技术栈的文档记录、ducura只能提供webpack+react文档的记录。这样不同的技术栈使用不同的项目，采用不同的网址，会严重降低程序员们文档记录的积极性，使用率。那么如何解决呢，只需要将不同技术栈导出文档，及其演示进行规范化，然后在一个主项目中一iframe的形式进行导入，这样就可以聚合不同技术栈的文档，实现不同技术栈文档的聚合。
 >
 > 
+
+
