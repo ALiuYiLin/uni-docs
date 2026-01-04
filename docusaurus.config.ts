@@ -66,6 +66,10 @@ const config: Config = {
         },
       } satisfies Preset.Options,
     ],
+  
+  ],
+  plugins: [
+    './src/plugins/studentsPlugins.ts',
   ],
 
   themeConfig: {
