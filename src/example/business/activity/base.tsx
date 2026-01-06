@@ -1,6 +1,7 @@
 import React, { useMemo, useState, useRef, useCallback } from "react";
 import styles from "./base.module.css";
 import { activityConfig } from "./config";
+import { ActivityStatus, ActivityStatusMap } from "./config";
 
 type HandleProps = {
   leftPct: number;
@@ -41,13 +42,13 @@ function formatTime(d: Date) {
 }
 
 // 按生命周期计算当前状态
-function getStatus(now: Date, t: ActivityResolved) {
-  if (now < t.start) return "待开始";
-  if (now >= t.start && now < t.voteEnd) return "投票中";
-  if (now >= t.voteEnd && now < t.matchStart) return "赛前";
+function getStatus(now: Date, t: ActivityResolved): ActivityStatus {
+  if (now < t.start) return ActivityStatus.Pending;
+  if (now >= t.start && now < t.voteEnd) return ActivityStatus.Voting;
+  if (now >= t.voteEnd && now < t.matchStart) return ActivityStatus.PreMatch;
   if (now >= t.matchStart && now < t.end)
-    return t.matchEnd ? "公示中" : "比赛中";
-  return "已结束";
+    return t.matchEnd ? ActivityStatus.Publicizing : ActivityStatus.Matching;
+  return ActivityStatus.Ended;
 }
 
 // 时间顺序约束（布尔结束标记不参与顺序校验）
@@ -75,6 +76,17 @@ export default function ActivityExample() {
   const status = getStatus(now, times);
   const orderOk = isOrderValid(times);
   const barRef = useRef<HTMLDivElement>(null);
+
+  const canVote = useMemo(()=>{
+    if(status === ActivityStatus.Voting){
+      return true
+    }
+  },[status])
+
+
+  const [voted, setVoted] = useState(false);
+  const [advanced, setAdvanced] = useState(false);
+  const [claimed, setClaimed] = useState(false);
 
   const totalMs = times.end.getTime() - times.start.getTime();
   const pctOf = useCallback(
@@ -212,8 +224,37 @@ export default function ActivityExample() {
           比赛已结束
         </label>
         <span>
-          {status}
+          {ActivityStatusMap[status]}
         </span>
+      </div>
+      <div style={{display: 'flex', alignItems: 'center', gap: 12, marginBottom: 12,marginTop: 100}}>
+        <label style={{display: 'flex', alignItems: 'center', gap: 8}}>
+          <input
+            type="checkbox"
+            checked={voted}
+            disabled={!canVote}
+            onChange={(e) => setVoted(e.target.checked)}
+          />
+          {voted ? '已投票' : '未投票'}
+        </label>
+        <label style={{display: 'flex', alignItems: 'center', gap: 8}}>
+          <input
+            type="checkbox"
+            checked={advanced}
+            disabled={ status !== ActivityStatus.Publicizing}
+            onChange={(e) => setAdvanced(e.target.checked)}
+          />
+          {advanced ? '已晋级' : '未晋级'}
+        </label>
+          <label style={{display: 'flex', alignItems: 'center', gap: 8}}>
+            <input
+              type="checkbox"
+              checked={claimed}
+              disabled={status !== ActivityStatus.Publicizing || !voted || !advanced}
+              onChange={(e) => setClaimed(e.target.checked)}
+            />
+            {claimed ? '已领奖' : '未领奖'}
+          </label>
       </div>
     </div>
   );
