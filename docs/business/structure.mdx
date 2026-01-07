@@ -1,0 +1,87 @@
+# 代码结构
+
+
+```tsx
+// types.ts
+// 数据类型
+export enum Team {
+  None = 0,
+  TeamA = 1,
+  TeamB = 2,
+}
+
+```
+
+
+```tsx
+// main.tsx
+// 基础数据
+const baseData = useBase()
+const { selectedTeam, advancedTeam } = baseData
+
+// 派生数据
+const { voted, advanced, isSelectedTeamAdvanced } = useDerived(...baseData)
+
+// UI工具数据
+const { showSelectConfirm, showInfoToast } = useUIUtils()
+
+// UI工具函数
+const { 
+  openSelectConfirm, openInfoToast, 
+  closeSelectConfirm, 
+  confirmSelectTeam,
+} = useUIUtilsOptions()
+
+
+
+```
+
+
+
+```tsx
+// base.tsx
+export const useBase = () => {
+  const [selectedTeam, setSelectedTeam] = useState<Team>()
+  const [advancedTeam, setAdvancedTeam] = useState<Team>()
+
+  async function init() {
+    const { selectedTeam, advancedTeam } = await API.getActivityInitData()
+    setSelectedTeam(selectedTeam)
+    setAdvancedTeam(advancedTeam)
+  }
+
+  useEffect(() => {
+    init()
+  }, [])
+
+
+  return {
+    selectedTeam,
+    setSelectedTeam,
+    advancedTeam,
+    setAdvancedTeam,
+    init
+  }
+}
+
+export type UseBaseResult = ReturnType<typeof useBase>
+
+```
+
+```tsx
+
+type DerictiveProps  = {} & UseBaseResult
+// derived.tsx
+export const useDerived = (selectedTeam, advancedTeam) => {
+
+  const voted = useMemo(() => selectedTeam !== Team.None, [selectedTeam])
+  const advanced = useMemo(() => advancedTeam !== Team.None, [advancedTeam])
+  const isSelectedTeamAdvanced = useMemo(() => (selectedTeam === advancedTeam) && voted && advanced [selectedTeam, advancedTeam, voted, advanced])
+
+  return {
+    voted,
+    advanced,
+    isSelectedTeamAdvanced,
+  }
+}
+```
