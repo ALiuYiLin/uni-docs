@@ -1,0 +1,44 @@
+# 闭包
+
+如何创建一个函数，这个函数会远程请求数据，并返回数据，但是只有第一次调用的时候会去远程请求数据。
+
+```ts
+export const closureUserData = () => {
+  let data: UserData | null = null
+  return async () => {
+    if (data) {
+      return data
+    }
+		try{
+    	data = await requestUserData()
+		} catch (error) {
+			console.error("Error fetching user data:", error)
+			throw error
+		}
+    return data
+  }
+}
+export const getUserData = closureUserData()
+```
+
+
+```ts
+export const closureData = () => {
+  let promise: Promise<UserData> | null = null
+
+  return () => {
+    if (promise) {
+      return promise
+    }
+    
+    promise = requestUserData().catch(err => {
+        // 如果请求失败，清除缓存，以便下次重试
+        promise = null
+        throw err
+    })
+    
+    return promise
+  }
+}
+export const getUserData = closureUserData()
+```
