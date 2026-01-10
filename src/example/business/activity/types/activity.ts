@@ -6,3 +6,11 @@ export enum ActivityStatus {
   Publicizing = 5,
   Ended = 6,
 }
+
+
+export enum TeamTag {
+  None = 0,
+  TeamA = 1,
+  TeamB = 2,
+  TeamC = 3,
+}

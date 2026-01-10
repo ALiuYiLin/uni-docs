@@ -7,8 +7,8 @@ import dayjs from "dayjs";
 function TimePoint({ left, title, isRed }: { left: string | number; title: string; isRed?: boolean }) {
   return (
     <div className="ball-wrapper absolute" style={{ left: typeof left === 'number' ? `${left}%` : left }}>
-      <p className={`${styles['ball-title']} ${isRed ? 'text-[red]' : ''}`}>{title}</p>
-      <div className={`ball rounded-full w-[10px] h-[10px] ${isRed ? 'bg-[red]' : 'bg-[#000]'}`}></div>
+      <p className={`${styles['ball-title']} ${isRed ? 'text-[red] bg-white' : ''}`}>{title}</p>
+      <div className={`ball rounded-full w-[10px] h-[10px] ${isRed ? 'bg-[red] ' : 'bg-[#000]'}`}></div>
     </div>
   );
 }
@@ -22,7 +22,6 @@ export default function ActivityTime({
   matchEnd: boolean;
   end: string;
   now: string;
-  status: ActivityStatus;
 }) {
   const totalTime = useMemo(() => {
     return dayjs(end).valueOf() - dayjs(start).valueOf()

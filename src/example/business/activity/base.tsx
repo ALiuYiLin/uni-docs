@@ -3,10 +3,7 @@ import { useBase } from "./hooks/useBase";
 import { useDerived } from "./hooks/useDerived";
 import { useUI } from "./hooks/useUI";
 import { useMethods } from "./hooks/useMethods";
-import { Divider, Flex } from "antd";
-import ActivityTime from "./components/activity-time";
-import ActivityTools from "./components/activity-tools";
-import MetaStatus from "./components/meta-status";
+import { Divider, Flex, Switch } from "antd";
 export default function ActivityExample() {
 
 
@@ -27,13 +24,15 @@ export default function ActivityExample() {
 
   // 1. 初始数据 (Initial Data)
   const { 
-    start, voteEnd, matchStart, matchEnd, end, now, 
-    setStart, setVoteEnd, setMatchStart, setMatchEnd, setEnd, setNow,
-    countdownOpen, setCountdownOpen
+    start, voteEnd, matchStart, matchEnd, end, now, selectedTeam,advantageTeam,
+    countdownOpen, setCountdownOpen,
+    ActivityBaseUI,
+    ActivityTimeUI,
+    VoteUI,
    } = useBase();
 
   // 2. 派生状态 (Derived State)
-  const { status, orderOk } = useDerived(start, voteEnd, matchStart, matchEnd, end, now);
+  const { status, orderOk,ActivityDerivedUI } = useDerived(start, voteEnd, matchStart, matchEnd, end, now, selectedTeam, advantageTeam);
 
   // 3. UI 状态 (UI State)
   const { barRef, voted, setVoted, advanced, setAdvanced, claimed, setClaimed } = useUI();
@@ -48,36 +47,21 @@ export default function ActivityExample() {
 
   return (
     <Flex vertical gap={'middle'} className="p-5 border border-[#eee] rounded-lg">
-      <Divider>元状态</Divider>
-      <MetaStatus 
-        now={now} 
-        start={start} 
-        voteEnd={voteEnd} 
-        matchStart={matchStart} 
-        end={end}
-        setNow={setNow}
-        setStart={setStart}
-        setVoteEnd={setVoteEnd}
-        setMatchStart={setMatchStart}
-        setEnd={setEnd}
-      />
-      <Divider>派生状态</Divider>
-      <ActivityTools 
-        orderOk={orderOk} 
-        status={status} 
-        countdownOpen={countdownOpen} 
-        setCountdownOpen={setCountdownOpen} 
-      />
       <Divider>活动时间</Divider>
-      <ActivityTime
-        start={start}
-        voteEnd={voteEnd}
-        matchStart={matchStart}
-        matchEnd={matchEnd}
-        end={end}
-        now={now}
-        status={status}
-      />
+      <ActivityTimeUI />
+      <Divider>元状态</Divider>
+      <ActivityBaseUI />
+      <VoteUI />
+      <Divider>派生状态</Divider>
+      <ActivityDerivedUI />
+      <Divider>UI tools</Divider>
+      <Flex gap={'small'} vertical>
+        <Flex gap={"small"} align='center'>
+          <label>时间同步？</label>
+          <Switch checked={countdownOpen} onChange={setCountdownOpen}></Switch>
+        </Flex>
+      </Flex>
+      
     </Flex>
   )
 }
