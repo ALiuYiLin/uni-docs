@@ -1,43 +1,37 @@
-import { useMemo, useCallback } from "react";
+import { useMemo } from "react";
 import { ActivityStatus } from "../types";
 import { ActivityResolved } from "./useBase";
+import dayjs from "dayjs";
 
 // 按生命周期计算当前状态
-function getStatus(now: Date, t: ActivityResolved): ActivityStatus {
-  if (now < t.start) return ActivityStatus.Pending;
-  if (now >= t.start && now < t.voteEnd) return ActivityStatus.Voting;
-  if (now >= t.voteEnd && now < t.matchStart) return ActivityStatus.PreMatch;
-  if (now >= t.matchStart && now < t.end)
+function getStatus(now: string, t: ActivityResolved): ActivityStatus {
+  if(!now || !t) return null
+  if (dayjs(now).valueOf() < dayjs(t.start).valueOf()) return ActivityStatus.Pending;
+  if (dayjs(now).valueOf() >= dayjs(t.start).valueOf() && dayjs(now).valueOf() < dayjs(t.voteEnd).valueOf()) return ActivityStatus.Voting;
+  if (dayjs(now).valueOf() >= dayjs(t.voteEnd).valueOf() && dayjs(now).valueOf() < dayjs(t.matchStart).valueOf()) return ActivityStatus.PreMatch;
+  if (dayjs(now).valueOf() >= dayjs(t.matchStart).valueOf() && dayjs(now).valueOf() < dayjs(t.end).valueOf())
     return t.matchEnd ? ActivityStatus.Publicizing : ActivityStatus.Matching;
   return ActivityStatus.Ended;
 }
 
 // 时间顺序约束（布尔结束标记不参与顺序校验）
 function isOrderValid(t: ActivityResolved) {
+  if(!t) return null
+  const s = new Date(t.start).getTime()
+  const v = new Date(t.voteEnd).getTime()
+  const m = new Date(t.matchStart).getTime()
+  const e = new Date(t.end).getTime()
+  
   return (
-    t.start.getTime() < t.voteEnd.getTime() &&
-    t.voteEnd.getTime() <= t.matchStart.getTime() &&
-    t.matchStart.getTime() < t.end.getTime()
+    s < v &&
+    v <= m &&
+    m < e
   );
 }
 
-export function useDerived(times: ActivityResolved, now: Date) {
-  const status = getStatus(now, times);
-  const orderOk = isOrderValid(times);
+export function useDerived(start: string, voteEnd: string, matchStart: string, matchEnd: boolean, end: string, now: string) {
+  const orderOk = useMemo(()=> isOrderValid({start, voteEnd, matchStart, matchEnd, end}),[start, voteEnd, matchStart, matchEnd, end])
+  const status = useMemo(() => getStatus(now, {start, voteEnd, matchStart, matchEnd, end}), [now, start, voteEnd, matchStart, matchEnd, end]);
 
-  const canVote = useMemo(() => {
-    if (status === ActivityStatus.Voting) {
-      return true;
-    }
-    return false;
-  }, [status]);
-
-  const totalMs = times.end.getTime() - times.start.getTime();
-  const pctOf = useCallback(
-    (d: Date) =>
-      Math.max(0, Math.min(1, (d.getTime() - times.start.getTime()) / totalMs)),
-    [times.start, totalMs]
-  );
-
-  return { status, orderOk, canVote, totalMs, pctOf };
+  return { status, orderOk };
 }

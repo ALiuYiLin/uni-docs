@@ -76,7 +76,7 @@ export const useDerived = (selectedTeam, advancedTeam) => {
 
   const voted = useMemo(() => selectedTeam !== Team.None, [selectedTeam])
   const advanced = useMemo(() => advancedTeam !== Team.None, [advancedTeam])
-  const isSelectedTeamAdvanced = useMemo(() => (selectedTeam === advancedTeam) && voted && advanced [selectedTeam, advancedTeam, voted, advanced])
+  const isSelectedTeamAdvanced = useMemo(() => (selectedTeam === advancedTeam) && voted && advanced, [selectedTeam, advancedTeam, voted, advanced])
 
   return {
     voted,
