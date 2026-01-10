@@ -1,0 +1,7 @@
+.ball-title {
+  position: absolute;
+  width: max-content;
+  top: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+}

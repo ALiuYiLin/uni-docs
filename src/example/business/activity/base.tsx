@@ -3,9 +3,10 @@ import { useBase } from "./hooks/useBase";
 import { useDerived } from "./hooks/useDerived";
 import { useUI } from "./hooks/useUI";
 import { useMethods } from "./hooks/useMethods";
-import { Checkbox, DatePicker, Divider, Flex, Switch } from "antd";
-import dayjs from "dayjs";
-import { ActivityStatusMap } from "./map";
+import { Divider, Flex } from "antd";
+import ActivityTime from "./components/activity-time";
+import ActivityTools from "./components/activity-tools";
+import MetaStatus from "./components/meta-status";
 export default function ActivityExample() {
 
 
@@ -48,64 +49,35 @@ export default function ActivityExample() {
   return (
     <Flex vertical gap={'middle'} className="p-5 border border-[#eee] rounded-lg">
       <Divider>元状态</Divider>
-      <Flex gap={'small'} align="center">
-        <label className="w-20">当前时间</label>
-        <DatePicker 
-          showTime 
-          value={dayjs(now)} 
-          onChange={(d) => setNow(d.format('YYYY-MM-DDTHH:mm:ssZ'))} 
-        />
-      </Flex>
-      <Flex gap={'small'} align="center">
-        <label className="w-20">活动开始</label>
-        <DatePicker 
-          showTime 
-          value={dayjs(start)} 
-          onChange={(d) => setStart(d.format('YYYY-MM-DDTHH:mm:ssZ'))} 
-        />
-      </Flex>
-      <Flex gap={'small'} align="center">
-        <label className="w-20">投票截止</label>
-        <DatePicker 
-          showTime 
-          value={dayjs(voteEnd)} 
-          onChange={(d) => setVoteEnd(d.format('YYYY-MM-DDTHH:mm:ssZ'))} 
-        />
-      </Flex>
-      <Flex gap={'small'} align="center">
-        <label className="w-20">比赛开始</label>
-        <DatePicker 
-          showTime 
-          value={dayjs(matchStart)} 
-          onChange={(d) => setMatchStart(d.format('YYYY-MM-DDTHH:mm:ssZ'))} 
-        />
-      </Flex>
-      <Flex gap={'small'} align="center">
-        <label className="w-20">活动结束</label>
-        <DatePicker 
-          showTime 
-          value={dayjs(end)} 
-          onChange={(d) => setEnd(d.format('YYYY-MM-DDTHH:mm:ssZ'))} 
-        />
-      </Flex>
+      <MetaStatus 
+        now={now} 
+        start={start} 
+        voteEnd={voteEnd} 
+        matchStart={matchStart} 
+        end={end}
+        setNow={setNow}
+        setStart={setStart}
+        setVoteEnd={setVoteEnd}
+        setMatchStart={setMatchStart}
+        setEnd={setEnd}
+      />
       <Divider>派生状态</Divider>
-      <Flex gap={'small'} vertical>
-        <Flex gap={"small"}>
-          <label>时间顺序是否正确</label>
-          <Checkbox checked={orderOk}></Checkbox>
-        </Flex>
-        <Flex gap={"small"}>
-          <label>当前状态:</label>
-          <span>[{ActivityStatusMap[status]}]</span>
-        </Flex>
-      </Flex>
-      <Divider>UI tools</Divider>
-      <Flex gap={'small'} vertical>
-        <Flex gap={"small"}>
-          <label>倒计时是否打开</label>
-          <Switch checked={countdownOpen} onChange={setCountdownOpen}></Switch>
-        </Flex>
-      </Flex>
+      <ActivityTools 
+        orderOk={orderOk} 
+        status={status} 
+        countdownOpen={countdownOpen} 
+        setCountdownOpen={setCountdownOpen} 
+      />
+      <Divider>活动时间</Divider>
+      <ActivityTime
+        start={start}
+        voteEnd={voteEnd}
+        matchStart={matchStart}
+        matchEnd={matchEnd}
+        end={end}
+        now={now}
+        status={status}
+      />
     </Flex>
   )
 }
