@@ -1,9 +1,26 @@
-import { useMemo } from "react";
+import { ReactNode, useMemo } from "react";
 import { ActivityStatus, TeamTag } from "../types";
 import { ActivityResolved } from "./useBase";
 import dayjs from "dayjs";
-import { Checkbox, Flex } from "antd";
+import { Checkbox, Col, Flex, Row } from "antd";
 import { ActivityStatusMap, TeamTagMap } from "../map";
+
+function DerivedItem({
+  title,
+  children,
+}: {
+  title: string;
+  children: ReactNode;
+}) {
+  return (
+    <Col span={6}>
+      <Flex gap={"small"} align="center">
+        <label>{title}</label>
+        {children}
+      </Flex>
+    </Col>
+  );
+}
 
 // 按生命周期计算当前状态
 function getStatus(now: string, t: ActivityResolved): ActivityStatus {
@@ -43,37 +60,87 @@ export function useDerived(
   start: string,
   voteEnd: string,
   matchStart: string,
-  matchEnd: boolean,
   end: string,
   now: string,
   selectedTeam: TeamTag,
-  advantageTeam: TeamTag
+  advantageTeam: TeamTag,
+  receivedReward: boolean,
 ) {
+   const hasTeamAdvanced = useMemo(
+    () => advantageTeam !== TeamTag.None,
+    [advantageTeam]
+  );
+  const hasTeamSelected = useMemo(
+    () => selectedTeam !== TeamTag.None,
+    [selectedTeam]
+  );
+  const isSelectedTeamAdvanced = useMemo(
+    () => selectedTeam === advantageTeam && hasTeamAdvanced,
+    [selectedTeam, advantageTeam, hasTeamAdvanced]
+  );
+  // now-比赛开始 倒计时
+  const matchStartCountdown = useMemo(
+    () => dayjs(matchStart).valueOf() - dayjs(now).valueOf(),
+    [now, matchStart]
+  );
+
+ 
+
+  const isMatchEnd = useMemo(
+    () => advantageTeam !== TeamTag.None && dayjs(now).valueOf() >= dayjs(matchStart).valueOf(),
+    [now, matchStart, advantageTeam]
+  );
+
+
+  
   const orderOk = useMemo(
-    () => isOrderValid({ start, voteEnd, matchStart, matchEnd, end }),
-    [start, voteEnd, matchStart, matchEnd, end]
+    () => isOrderValid({ start, voteEnd, matchStart, matchEnd:isMatchEnd, end }),
+    [start, voteEnd, matchStart, isMatchEnd, end]
   );
   const status = useMemo(
-    () => getStatus(now, { start, voteEnd, matchStart, matchEnd, end }),
-    [now, start, voteEnd, matchStart, matchEnd, end]
+    () => getStatus(now, { start, voteEnd, matchStart, matchEnd:isMatchEnd, end }),
+    [now, start, voteEnd, matchStart, isMatchEnd, end]
   );
+ 
+
+
+   // 是否可以领取奖励
+  const canReceiveReward = useMemo(
+    () => status === ActivityStatus.Publicizing && isSelectedTeamAdvanced,
+    [status, isSelectedTeamAdvanced]
+  );
+  
+  
+
   function ActivityDerivedUI() {
     return (
       <>
-        <Flex gap={16}>
-          <Flex gap={"small"}>
-            <label>时间顺序是否正确</label>
+        <Row gutter={[6, 16]}>
+          <DerivedItem title="比赛倒计时:">
+            <span>{dayjs(matchStartCountdown).format("HH:mm:ss")}</span>
+          </DerivedItem>
+          <DerivedItem title="时间顺序是否正确">
             <Checkbox checked={!!orderOk}></Checkbox>
-          </Flex>
-          <Flex gap={"small"}>
-            <label>当前状态:</label>
+          </DerivedItem>
+          <DerivedItem title="当前状态:">
             <span>[{ActivityStatusMap[status]}]</span>
-          </Flex>
-          <Flex gap={"small"}>
-            <label>是否投票</label>
-            <Checkbox checked={!!selectedTeam}></Checkbox>
-          </Flex>
-        </Flex>
+          </DerivedItem>
+          <DerivedItem title="是否投票:">
+            <Checkbox checked={!!hasTeamSelected}></Checkbox>
+          </DerivedItem>
+          <DerivedItem title="是否比赛结束:">
+            <Checkbox checked={!!isMatchEnd}></Checkbox>
+          </DerivedItem>
+          <DerivedItem title="是否有队伍晋级:">
+            <Checkbox checked={!!hasTeamAdvanced}></Checkbox>
+          </DerivedItem>
+          <DerivedItem title="所选队伍是否晋级:">
+            <Checkbox checked={!!isSelectedTeamAdvanced}></Checkbox>
+          </DerivedItem>
+          <DerivedItem title="是否可以领取奖励:">
+            <Checkbox checked={!!canReceiveReward}></Checkbox>
+          </DerivedItem>
+        </Row>
       </>
     );
   }

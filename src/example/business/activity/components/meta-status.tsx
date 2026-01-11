@@ -40,20 +40,19 @@ export default function MetaStatus({
   ];
   return (
     <>
-      <Row gutter={[16, 16]}>
-        {fields.map((f) => (
-          <Col span={12}>
-            <Flex key={f.label} gap={"small"} align="center">
-              <label className="w-20">{f.label}</label>
-              <DatePicker
-                showTime
-                value={dayjs(f.value)}
-                onChange={(d) => d && f.set(d.format("YYYY-MM-DDTHH:mm:ssZ"))}
-              />
-            </Flex>
-          </Col>
-        ))}
-      </Row>
+      {fields.map((f) => (
+        <Col span={12} key={f.label}>
+          <Flex gap={"small"} align="center">
+            <span>{f.label}</span>
+            <DatePicker
+              className="flex-1"
+              showTime
+              value={dayjs(f.value)}
+              onChange={(d) => d && f.set(d.format("YYYY-MM-DDTHH:mm:ssZ"))}
+            />
+          </Flex>
+        </Col>
+      ))}
     </>
   );
 }

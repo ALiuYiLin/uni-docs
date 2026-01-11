@@ -23,10 +23,11 @@ export function useBase() {
   const [end, setEnd] = useState<string>();
   const [now, setNow] = useState<string>();
 
-
   const [selectedTeam, setSelectedTeam] = useState<TeamTag>(TeamTag.None);
   const [advantageTeam, setAdvantageTeam] = useState<TeamTag>(TeamTag.None);
 
+  // 是否领取了奖励
+  const [receivedReward, setReceivedReward] = useState<boolean>(false);
 
   // 倒计时是否打开
   const [countdownOpen, setCountdownOpen] = useState<boolean>(false);
@@ -49,6 +50,8 @@ export function useBase() {
       // setSelectedTeam(TeamTag.TeamA);
       // 初始化时默认优势队伍为队伍 A
       // setAdvantageTeam(TeamTag.TeamA);
+      // 初始化时默认未领取奖励
+      // setHasReceivedReward(false);
     }
 
     init();
@@ -87,19 +90,26 @@ export function useBase() {
   function ActivityTimeUI() {
     return (
       <ActivityTime
-              start={start}
-              voteEnd={voteEnd}
-              matchStart={matchStart}
-              matchEnd={matchEnd}
-              end={end}
-              now={now}
-            />
-    )
+        start={start}
+        voteEnd={voteEnd}
+        matchStart={matchStart}
+        matchEnd={matchEnd}
+        end={end}
+        now={now}
+      />
+    );
   }
   function VoteUI() {
     return (
       <>
-        <Vote selectedTeam={selectedTeam}  setSelectedTeam={setSelectedTeam} />
+        <Vote
+          selectedTeam={selectedTeam}
+          setSelectedTeam={setSelectedTeam}
+          advancedTeam={advantageTeam}
+          setAdvancedTeam={setAdvantageTeam}
+          receivedReward={receivedReward}
+          setReceivedReward={setReceivedReward}
+        />
       </>
     );
   }
@@ -133,6 +143,7 @@ export function useBase() {
     now,
     selectedTeam,
     advantageTeam,
+    receivedReward,
     setCountdownOpen,
     setSelectedTeam,
     setAdvantageTeam,

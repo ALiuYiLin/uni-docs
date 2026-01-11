@@ -3,7 +3,7 @@ import { useBase } from "./hooks/useBase";
 import { useDerived } from "./hooks/useDerived";
 import { useUI } from "./hooks/useUI";
 import { useMethods } from "./hooks/useMethods";
-import { Divider, Flex, Switch } from "antd";
+import { Divider, Flex, Row, Switch } from "antd";
 export default function ActivityExample() {
 
 
@@ -25,6 +25,7 @@ export default function ActivityExample() {
   // 1. 初始数据 (Initial Data)
   const { 
     start, voteEnd, matchStart, matchEnd, end, now, selectedTeam,advantageTeam,
+    receivedReward,
     countdownOpen, setCountdownOpen,
     ActivityBaseUI,
     ActivityTimeUI,
@@ -32,7 +33,7 @@ export default function ActivityExample() {
    } = useBase();
 
   // 2. 派生状态 (Derived State)
-  const { status, orderOk,ActivityDerivedUI } = useDerived(start, voteEnd, matchStart, matchEnd, end, now, selectedTeam, advantageTeam);
+  const { status, orderOk,ActivityDerivedUI } = useDerived(start, voteEnd, matchStart, end, now, selectedTeam, advantageTeam, receivedReward);
 
   // 3. UI 状态 (UI State)
   const { barRef, voted, setVoted, advanced, setAdvanced, claimed, setClaimed } = useUI();
@@ -50,8 +51,10 @@ export default function ActivityExample() {
       <Divider>活动时间</Divider>
       <ActivityTimeUI />
       <Divider>元状态</Divider>
-      <ActivityBaseUI />
-      <VoteUI />
+      <Row gutter={[16, 16]}>
+        <ActivityBaseUI />  
+        <VoteUI />
+      </Row>
       <Divider>派生状态</Divider>
       <ActivityDerivedUI />
       <Divider>UI tools</Divider>
