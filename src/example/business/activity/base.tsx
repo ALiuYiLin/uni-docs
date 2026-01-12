@@ -29,9 +29,10 @@ export default function ActivityExample() {
         <MatchInfo />
       </Row>
       <Divider>派生数据</Divider>
-      <Flex gap={"large"}>
+      <Flex gap={"large"} vertical>
         <DerivedSection isCountdownOpen={isCountdownOpen}  {...baseData}  />
       </Flex>
+      <Divider>操作</Divider>
     </Flex>
   )
 }

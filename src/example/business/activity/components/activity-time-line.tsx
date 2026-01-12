@@ -13,7 +13,7 @@ function TimePoint({ left, title, isRed }: { left: string | number; title: strin
   );
 }
 
-export default function ActivityTime({
+export default function ActivityTimeLine({
   start, voteEnd, matchStart, end, now,
 }: {
   start: string;
@@ -37,7 +37,7 @@ export default function ActivityTime({
   ];
 
   return (
-    <Flex gap={'small'} vertical className="py-[20px] relative">
+    <Flex gap={'small'} vertical className="py-[20px] relative flex-1">
       <Flex className="w-full h-[2px] bg-[#eee]  top-[5px] relative"> </Flex>
       {points.map((p) => (
         <TimePoint 
