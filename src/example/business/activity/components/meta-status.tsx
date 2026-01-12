@@ -3,12 +3,10 @@ import { Flex, DatePicker, Row, Col } from "antd";
 import dayjs from "dayjs";
 
 interface MetaStatusProps {
-  now: string;
   start: string;
   voteEnd: string;
   matchStart: string;
   end: string;
-  setNow: (val: string) => void;
   setStart: (val: string) => void;
   setVoteEnd: (val: string) => void;
   setMatchStart: (val: string) => void;
@@ -16,12 +14,10 @@ interface MetaStatusProps {
 }
 
 export default function MetaStatus({
-  now,
   start,
   voteEnd,
   matchStart,
   end,
-  setNow,
   setStart,
   setVoteEnd,
   setMatchStart,
@@ -32,7 +28,6 @@ export default function MetaStatus({
     value: string;
     set: (v: string) => void;
   }> = [
-    { label: "当前时间", value: now, set: setNow },
     { label: "活动开始", value: start, set: setStart },
     { label: "投票截止", value: voteEnd, set: setVoteEnd },
     { label: "比赛开始", value: matchStart, set: setMatchStart },

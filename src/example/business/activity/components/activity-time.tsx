@@ -14,12 +14,11 @@ function TimePoint({ left, title, isRed }: { left: string | number; title: strin
 }
 
 export default function ActivityTime({
-  start, voteEnd, matchStart, matchEnd, end, now,
+  start, voteEnd, matchStart, end, now,
 }: {
   start: string;
   voteEnd: string;
   matchStart: string;
-  matchEnd: boolean;
   end: string;
   now: string;
 }) {
