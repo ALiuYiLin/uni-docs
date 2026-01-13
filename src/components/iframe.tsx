@@ -1,10 +1,11 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 export default function Iframe({
   src,
 }: {
   src: string;
 }) {
   const iframeRef = useRef<HTMLIFrameElement>(null);
+  const [heightNum, setHeightNum] = useState('100vh')
   useEffect(()=>{
 
     window.addEventListener('message', (e) => {
@@ -13,13 +14,14 @@ export default function Iframe({
 
       console.log('e.data.height: ', e.data.height);
       const h = Number(e.data.height);
-      if (Number.isFinite(h) && h > 0 && iframeRef.current) {
-        iframeRef.current.style.height = `${h}px`;
-      }
+      // if (Number.isFinite(h) && h > 0 && iframeRef.current) {
+      //   iframeRef.current.style.height = `${h}px`;
+      // }
+      setHeightNum(`${h}px`)
     });
 
   },[])
   return (
-    <iframe ref={iframeRef} src={src} width="100%" height="100vh" />
+    <iframe ref={iframeRef} src={src}  width={'100%'} height={heightNum}/>
   );
 }
