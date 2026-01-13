@@ -1,17 +1,30 @@
-import { Layout, Typography, Space } from 'antd'
-import { GithubOutlined, HeartFilled } from '@ant-design/icons'
+import { Layout, Typography, Space, Button } from 'antd'
+import { GithubOutlined, HeartFilled, HomeOutlined } from '@ant-design/icons'
+import { useNavigate, useLocation } from 'react-router-dom'
 
 const { Header: AntHeader } = Layout
 const { Title } = Typography
 
 export const Header = () => {
+  const navigate = useNavigate()
+  const location = useLocation()
+
   return (
     <AntHeader className="bg-white shadow-sm border-b">
       <div className="max-w-6xl mx-auto flex items-center justify-between h-full">
-        <Title level={3} className="m-0 text-gray-800">
+        <Title level={3} className="m-0 text-gray-800 cursor-pointer" onClick={() => navigate('/')}>
           Uni-Docs
         </Title>
-        <Space>
+        <Space size="large">
+          {location.pathname !== '/' && (
+            <Button 
+              type="text" 
+              icon={<HomeOutlined />}
+              onClick={() => navigate('/')}
+            >
+              首页
+            </Button>
+          )}
           <a 
             href="https://github.com" 
             target="_blank" 

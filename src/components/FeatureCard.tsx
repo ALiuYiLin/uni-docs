@@ -1,5 +1,5 @@
 import { Card, Typography } from 'antd'
-import { ReactNode } from 'react'
+import type { ReactNode } from 'react'
 
 const { Title, Paragraph } = Typography
 
@@ -14,7 +14,7 @@ export const FeatureCard = ({ title, description, icon, className = '' }: Featur
   return (
     <Card 
       className={`h-full hover:shadow-lg transition-all duration-300 hover:-translate-y-1 ${className}`}
-      bodyStyle={{ height: '100%', display: 'flex', flexDirection: 'column' }}
+      style={{ height: '100%', display: 'flex', flexDirection: 'column' }}
     >
       <div className="text-center mb-4">
         <div className="text-4xl mb-3">{icon}</div>
