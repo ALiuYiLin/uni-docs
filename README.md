@@ -1,41 +1,96 @@
-# Website
+# Uni Docs
 
-This website is built using [Docusaurus](https://docusaurus.io/), a modern static website generator.
+现代化前端开发栈 - 基于 Vite + React + TailwindCSS + Ant Design 构建的单页面应用模板。
 
-## Installation
+## 🚀 技术栈
 
-```bash
-yarn
-```
+- **⚡ Vite** - 极速的构建工具
+- **⚛️ React 19** - 现代化前端框架
+- **🎨 TailwindCSS** - 实用优先的CSS框架
+- **🐜 Ant Design** - 企业级UI组件库
+- **📝 TypeScript** - 类型安全的JavaScript
 
-## Local Development
+## 🛠️ 快速开始
 
-```bash
-yarn start
-```
-
-This command starts a local development server and opens up a browser window. Most changes are reflected live without having to restart the server.
-
-## Build
+### 安装依赖
 
 ```bash
-yarn build
+npm install
 ```
 
-This command generates static content into the `build` directory and can be served using any static contents hosting service.
-
-## Deployment
-
-Using SSH:
+### 启动开发服务器
 
 ```bash
-USE_SSH=true yarn deploy
+npm run dev
 ```
 
-Not using SSH:
+### 构建生产版本
 
 ```bash
-GIT_USER=<Your GitHub username> yarn deploy
+npm run build
 ```
 
-If you are using GitHub pages for hosting, this command is a convenient way to build the website and push to the `gh-pages` branch.
+### 预览生产构建
+
+```bash
+npm run preview
+```
+
+## 📁 项目结构
+
+```
+uni-docs/
+├── src/
+│   ├── components/          # 可复用组件
+│   │   ├── Header.tsx
+│   │   ├── FeatureCard.tsx
+│   │   └── index.ts
+│   ├── assets/             # 静态资源
+│   ├── App.tsx             # 主应用组件
+│   ├── main.tsx            # 应用入口
+│   └── index.css           # 全局样式
+├── public/                 # 公共资源
+├── tailwind.config.js      # TailwindCSS 配置
+├── postcss.config.js       # PostCSS 配置
+└── vite.config.ts          # Vite 配置
+```
+
+## 🎯 特性
+
+- ✅ 现代化开发体验
+- ✅ 组件化架构
+- ✅ 响应式设计
+- ✅ TypeScript 支持
+- ✅ 热更新开发
+- ✅ 优化的生产构建
+- ✅ ESLint 代码检查
+
+## 📝 开发指南
+
+### 添加新组件
+
+1. 在 `src/components/` 目录下创建新组件
+2. 使用 TypeScript 编写组件
+3. 在 `src/components/index.ts` 中导出组件
+
+### 样式开发
+
+- 使用 TailwindCSS 类名进行样式开发
+- 复杂样式可以在 `src/index.css` 中添加自定义CSS
+- 组件样式优先使用 Ant Design 的主题系统
+
+### 构建优化
+
+项目已配置了生产环境的构建优化：
+- 代码分割
+- 资源压缩
+- Tree Shaking
+- 现代浏览器优化
+
+## 🤝 贡献
+
+欢迎提交 Issue 和 Pull Request！
+
+## 📄 许可证
+
+MIT License
