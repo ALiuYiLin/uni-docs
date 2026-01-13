@@ -1,5 +1,5 @@
 import { Layout, Typography, Space, Button } from 'antd'
-import { GithubOutlined, HeartFilled, HomeOutlined } from '@ant-design/icons'
+import { GithubOutlined, HeartFilled, HomeOutlined, BookOutlined } from '@ant-design/icons'
 import { useNavigate, useLocation } from 'react-router-dom'
 
 const { Header: AntHeader } = Layout
@@ -16,15 +16,20 @@ export const Header = () => {
           Uni-Docs
         </Title>
         <Space size="large">
-          {location.pathname !== '/' && (
-            <Button 
-              type="text" 
-              icon={<HomeOutlined />}
-              onClick={() => navigate('/')}
-            >
-              首页
-            </Button>
-          )}
+          <Button 
+            type={location.pathname === '/' ? 'primary' : 'text'}
+            icon={<HomeOutlined />}
+            onClick={() => navigate('/')}
+          >
+            首页
+          </Button>
+          <Button 
+            type={location.pathname === '/doc' ? 'primary' : 'text'}
+            icon={<BookOutlined />}
+            onClick={() => navigate('/doc')}
+          >
+            文档
+          </Button>
           <a 
             href="https://github.com" 
             target="_blank" 

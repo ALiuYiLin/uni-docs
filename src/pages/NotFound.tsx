@@ -1,16 +1,13 @@
-import { Button, Result, Layout } from 'antd'
+import { Button, Result } from 'antd'
 import { useNavigate } from 'react-router-dom'
-import { Header } from '../components'
-
-const { Content } = Layout
+import { ClassicLayout } from '../layouts'
 
 export const NotFound = () => {
   const navigate = useNavigate()
 
   return (
-    <Layout className="min-h-screen">
-      <Header />
-      <Content className="flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100">
+    <ClassicLayout>
+      <div className="flex items-center justify-center min-h-[calc(100vh-200px)]">
         <div className="max-w-2xl w-full p-8">
           <Result
             status="404"
@@ -51,13 +48,16 @@ export const NotFound = () => {
               <Button type="link" onClick={() => navigate('/')}>
                 首页
               </Button>
+              <Button type="link" onClick={() => navigate('/doc')}>
+                文档
+              </Button>
               <Button type="link" onClick={() => navigate('/not-found')}>
                 404 页面示例
               </Button>
             </div>
           </div>
         </div>
-      </Content>
-    </Layout>
+      </div>
+    </ClassicLayout>
   )
 }
