@@ -3,7 +3,6 @@
   "private": true,
   "version": "1.0.0",
   "description": "现代化前端开发栈 - Vite + React + TailwindCSS + Ant Design",
-  "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
@@ -27,7 +26,7 @@
     "eslint-plugin-react-refresh": "^0.4.24",
     "globals": "^16.5.0",
     "postcss": "^8.5.4",
-    "tailwindcss": "^3.5.7",
+    "tailwindcss": "^3.4.0",
     "typescript": "~5.9.3",
     "typescript-eslint": "^8.46.4",
     "vite": "^7.2.4"

@@ -9,7 +9,7 @@ export const Header = () => {
     <AntHeader className="bg-white shadow-sm border-b">
       <div className="max-w-6xl mx-auto flex items-center justify-between h-full">
         <Title level={3} className="m-0 text-gray-800">
-          Uni Docs
+          Uni-Docs
         </Title>
         <Space>
           <a 
