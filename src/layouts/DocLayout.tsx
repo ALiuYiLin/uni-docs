@@ -1,6 +1,7 @@
 import { Layout, Menu, theme } from 'antd'
 import { Header } from '../components'
-import { ReactNode, useState } from 'react'
+import { useState, type ReactNode }  from 'react'
+
 import {
   FileTextOutlined,
   BookOutlined,
@@ -62,7 +63,7 @@ export const DocLayout = ({ children }: DocLayoutProps) => {
       icon: <BulbOutlined />,
       label: '示例',
       children: [
-        { key: 'basic', label: '基础示例' },
+        { key: 'basic', label: '基础示例', children: [{key:'aaaa', label:'aaaa'}]},
         { key: 'advanced', label: '高级示例' },
       ],
     },
