@@ -15,13 +15,13 @@ const menuItems: MenuItem[] = [
     key: 'getting-started',
     icon: <RocketOutlined />,
     label: '快速开始',
-    path: 'http://localhost:5176/whale-docs/%E9%9D%A2%E8%AF%95%E9%A2%98/Webpack/webpack.html'
+    path: 'http://localhost:5174/whale-docs/%E9%9D%A2%E8%AF%95%E9%A2%98/Webpack/webpack.html'
   },
   {
     key: 'guide',
     icon: <BookOutlined />,
     label: '指南',
-    path: 'http://localhost:5176/whale-docs/vue/%E6%B8%B2%E6%9F%93%E6%9C%BA%E5%88%B6.html'
+    path: 'http://localhost:5174/whale-docs/vue/%E6%B8%B2%E6%9F%93%E6%9C%BA%E5%88%B6.html'
   },
 ]
 
