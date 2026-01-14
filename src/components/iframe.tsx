@@ -29,6 +29,6 @@ export default function Iframe({
     });
   },[])
   return (
-    <iframe ref={iframeRef} src={src} style={{width: '100%',height: iframeHeight}} scrolling="no"/>
+    <iframe ref={iframeRef} src={src} style={{width: '100%',height: iframeHeight}} scrolling="no" />
   );
 }

@@ -21,7 +21,9 @@ const menuItems: MenuItem[] = [
     key: 'guide',
     icon: <BookOutlined />,
     label: '指南',
-    path: 'http://localhost:5174/whale-docs/vue/%E6%B8%B2%E6%9F%93%E6%9C%BA%E5%88%B6.html'
+    path: 'https://aliuyilin.github.io/whale-docs/vue/%E6%B8%B2%E6%9F%93%E6%9C%BA%E5%88%B6.html'
+    // path: 'http://localhost:4173/whale-docs/vue/%E6%B8%B2%E6%9F%93%E6%9C%BA%E5%88%B6.html'
+    // path: 'https://vitepress.dev/zh/guide/what-is-vitepress'
   },
 ]
 
